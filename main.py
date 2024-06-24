@@ -11,6 +11,7 @@ class IBapi(EWrapper, EClient):
 	last_bid_price = 0
 	last_ask_price = 0
 	last_spread = 0
+
 	def __init__(self):
 		EClient.__init__(self, self)
 	def tickPrice(self, reqId, tickType, price, attrib):
