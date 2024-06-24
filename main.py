@@ -8,12 +8,23 @@ import time
 
 
 class IBapi(EWrapper, EClient):
+	last_bid_price = 0
+	last_ask_price = 0
+	last_spread = 0
 	def __init__(self):
 		EClient.__init__(self, self)
 	def tickPrice(self, reqId, tickType, price, attrib):
-		print("jjjjjjjjjjjjjjjjjjjjjjjjjjjjj")
+		print(attrib)
+
 		if tickType == 2 and reqId == 1:
+			self.last_ask_price = price
 			print('The current ask price is: ', price)
+		if tickType == 1:
+			self.last_bid_price = price
+			print('The current bid price is: ', price)
+
+		self.last_spread = self.last_ask_price - self.last_bid_price
+		print("spread: " + str(self.last_spread))
 
 def run_loop():
 	app.run()
@@ -48,11 +59,8 @@ contractt.currency = "USD"
 print("Hello here we start")
 app.reqMarketDataType(3)
 app.reqMktData(1, contractt, '', False, False, [])
-print("Hello here we start2")
 time.sleep(15) #Sleep interval to allow time for incoming price data
-print("Hello here we start3")
 app.disconnect()
-print("Hello here we start4")
 
 # if __name__ == "__main__":
 #     main()
